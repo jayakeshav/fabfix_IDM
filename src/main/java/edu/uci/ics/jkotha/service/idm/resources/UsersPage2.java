@@ -155,7 +155,7 @@ public class UsersPage2 {
                     return Response.status(Response.Status.OK).entity(responseModel).build();
                 }
                 byte[] salt = Crypto.genSalt();
-                String insert = "insert into users(email, plevel, salt, pword) values (?,?,?,?)";
+                String insert = "insert into users(email, plevel, salt, pword,status) values (?,?,?,?,1)";//status default active
                 PreparedStatement insertStatement = BasicService.getCon().prepareStatement(insert);
                 insertStatement.setString(1,email);
                 insertStatement.setInt(2,plevel);

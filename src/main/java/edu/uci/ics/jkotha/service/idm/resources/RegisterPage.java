@@ -66,7 +66,7 @@ public class RegisterPage {
                     return Response.status(Response.Status.UNAUTHORIZED).entity(responseModel).build();
                 }
                 byte[] salt = Crypto.genSalt();
-                String insert = "insert into users(email, plevel, salt, pword) values (?,?,?,?)";
+                String insert = "insert into users(email, plevel, salt, pword,status) values (?,?,?,?,1)";//1=active user
                 PreparedStatement insertStatement = BasicService.getCon().prepareStatement(insert);
                 insertStatement.setString(1,email);
                 insertStatement.setInt(2,userPrivilage);

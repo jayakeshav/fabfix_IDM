@@ -54,7 +54,7 @@ public class LoginPage {
                 int status = rs.getInt("status");
                 if (status == 1) {
                     //update any previous sessions to revoked
-                    String updateString = "update sessions set status = 4 where email = ?";
+                    String updateString = "update sessions set status = 4 where email = ? and status=1";
                     PreparedStatement updateStatement = BasicService.getCon().prepareStatement(updateString);
                     updateStatement.setString(1, email);
                     int updates =updateStatement.executeUpdate();
