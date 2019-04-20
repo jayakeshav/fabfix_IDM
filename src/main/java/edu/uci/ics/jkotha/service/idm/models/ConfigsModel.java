@@ -8,6 +8,7 @@ public class ConfigsModel {
     private Map<String, String> serviceConfig;
     private Map<String, String> loggerConfig;
     private Map<String, String> databaseConfig;
+    private Map<String, String> sessionConfig;
 
     public ConfigsModel() {
     }
@@ -35,4 +36,8 @@ public class ConfigsModel {
     public void setDatabaseConfig(Map<String, String> databaseConfig) {
         this.databaseConfig = databaseConfig;
     }
+
+    public Map<String, String> getSessionConfig() { return sessionConfig; }
+
+    public void setSessionConfig(Map<String, String> sessionConfig) { this.sessionConfig = sessionConfig; }
 }

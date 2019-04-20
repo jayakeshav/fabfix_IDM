@@ -12,6 +12,7 @@ import edu.uci.ics.jkotha.service.idm.models.SessionResponseModel;
 import edu.uci.ics.jkotha.service.idm.models.SessionsRequestModel;
 import edu.uci.ics.jkotha.service.idm.security.Session;
 import edu.uci.ics.jkotha.service.idm.security.Token;
+import org.checkerframework.checker.units.qual.Time;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -23,6 +24,7 @@ import java.io.IOException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 
 @Path("session")
 public class SessionPage {
@@ -66,6 +68,12 @@ public class SessionPage {
                         rs.getTimestamp("timeCreated"),
                         rs.getTimestamp("lastUsed"),
                         rs.getTimestamp("exprTime"));
+                String updateString = "update sessions set lastUsed = ? where sessionID=?";
+                PreparedStatement updateStatement = BasicService.getCon().prepareStatement(updateString);
+                Timestamp now = new Timestamp(System.currentTimeMillis());
+                updateStatement.setTimestamp(1,now);
+                updateStatement.setString(2,sessionID);
+                updateStatement.execute();
                 if(rs.getInt("status")==CLOSED){
                     responseModel = new SessionResponseModel(132,"Session is closed",sessionID);
                 }
@@ -100,6 +108,10 @@ public class SessionPage {
                 }
                 return Response.status(Response.Status.OK).entity(responseModel).build();
             }
+            else {
+                responseModel = new SessionResponseModel(134,"Session not found", null);
+                return Response.status(Response.Status.OK).entity(responseModel).build();
+            }
 
         }catch (IOException | SQLException excep){
             excep.printStackTrace();
@@ -111,6 +123,5 @@ public class SessionPage {
                 return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
             return Response.status(Response.Status.BAD_REQUEST).entity(responseModel).build();
         }
-        return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
     }
 }

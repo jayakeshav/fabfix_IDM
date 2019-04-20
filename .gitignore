@@ -3,3 +3,10 @@
 
 # Ignore Gradle build output directory
 build
+
+ .idea/
+ config.yaml
+ database_scripts/
+ edu.uci.ics.jkotha.service.idm.iml
+ logs/
+ out/

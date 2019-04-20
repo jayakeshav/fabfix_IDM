@@ -194,6 +194,8 @@ public class BasicService {
         }
     }
 
+    public static Configs getConfigs(){return configs;}
+
     public static Connection getCon() {
         return con;
     }

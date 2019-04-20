@@ -3,6 +3,7 @@ package edu.uci.ics.jkotha.service.idm.Configs;
 
 import edu.uci.ics.jkotha.service.idm.logger.ServiceLogger;
 import edu.uci.ics.jkotha.service.idm.models.ConfigsModel;
+import edu.uci.ics.jkotha.service.idm.models.DefaultResponseModel;
 
 
 public class Configs {
@@ -24,6 +25,9 @@ public class Configs {
     private final String DEFAULT_DBNAME="idm";
     private final String DEFAULT_DBSETTINGS = "?autoReconnect=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=PST";
 
+    private final long DEFAULT_SESSION_TIMEOUT = 600000; // 10-minute timeout
+    private final long DEFAULT_TOKEN_EXPR = 1800000;
+
     private String scheme;
     private String hostName;
     private int port;
@@ -39,6 +43,9 @@ public class Configs {
     private String dbDriver;
     private String dbName;
     private String dbSettings;
+
+    private long session_timeout;
+    private long token_expr;
 
     public Configs(){
         //basic configs
@@ -57,6 +64,9 @@ public class Configs {
         dbDriver = DEFAULT_DBDRIVER;
         dbName = DEFAULT_DBNAME;
         dbSettings = DEFAULT_DBSETTINGS;
+
+        session_timeout = DEFAULT_SESSION_TIMEOUT;
+        token_expr = DEFAULT_TOKEN_EXPR;
     }
 
     public Configs(ConfigsModel cm) throws NullPointerException {
@@ -174,6 +184,22 @@ public class Configs {
             } else {
                 System.err.println("Database Settings: " + dbSettings);
             }
+
+            session_timeout = Long.parseLong(cm.getSessionConfig().get("timeout"));
+            if (session_timeout == 0) {
+                session_timeout = DEFAULT_SESSION_TIMEOUT;
+                System.err.println("Session timeout not found in configuration file. Using default.");
+            } else {
+                System.err.println("Session Time out: " + session_timeout);
+            }
+
+            token_expr = Long.parseLong(cm.getSessionConfig().get("expiration"));
+            if (token_expr == 0) {
+                token_expr = DEFAULT_TOKEN_EXPR;
+                System.err.println("Token expiration not found in configuration file. Using default.");
+            } else {
+                System.err.println("Token Expiration: " + token_expr);
+            }
         }
     }
 
@@ -191,6 +217,8 @@ public class Configs {
         ServiceLogger.LOGGER.config("Database driver:"+dbDriver);
         ServiceLogger.LOGGER.config("Database Name:"+dbName);
         ServiceLogger.LOGGER.config("Database Settings:"+dbSettings);
+        ServiceLogger.LOGGER.config("Session Time out: " + session_timeout);
+        ServiceLogger.LOGGER.config("Token Expiration: " + token_expr);
     }
 
     public String getScheme() {
@@ -244,5 +272,9 @@ public class Configs {
     public String getDbSettings() {
         return dbSettings;
     }
+
+    public long getSession_timeout() { return session_timeout; }
+
+    public long getToken_expr() { return token_expr; }
 }
 
