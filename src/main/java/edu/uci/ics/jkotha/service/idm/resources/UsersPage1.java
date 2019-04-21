@@ -29,7 +29,7 @@ public class UsersPage1 {
         QueryResponseModel responseModel;
         int plevel = FunctionsRequired.getPlevel(plevel1);
         if(email!=null) {
-            if (id < 0) {
+            if (id <= 0) {
                 ServiceLogger.LOGGER.info("result code: "+(-15));
                 responseModel = new QueryResponseModel(-15, "User ID number is out of valid range.");
                 return Response.status(Response.Status.BAD_REQUEST).entity(responseModel).build();
@@ -44,7 +44,7 @@ public class UsersPage1 {
             }
         }
         try {
-            if (id==0 & plevel==0){
+            if (id==0 & plevel==0 & email == null){
                 String allString = "select * from users";
                 PreparedStatement userStatement = BasicService.getCon().prepareStatement(allString);
                 ResultSet rs = userStatement.executeQuery();
@@ -59,7 +59,7 @@ public class UsersPage1 {
             String userString = "select * from users where id like ? or email like ? or plevel like ?";
             PreparedStatement userStatement = BasicService.getCon().prepareStatement(userString);
             userStatement.setInt(1,id);
-            userStatement.setString(2,""+email);
+            userStatement.setString(2,email);
             userStatement.setInt(3,plevel);
             //ServiceLogger.LOGGER.info(userStatement.toString());
             ResultSet rs = userStatement.executeQuery();

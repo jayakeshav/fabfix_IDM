@@ -1,5 +1,7 @@
 package edu.uci.ics.jkotha.service.idm.security;
 
+import edu.uci.ics.jkotha.service.idm.logger.ServiceLogger;
+
 import java.sql.Timestamp;
 
 public class Session {
@@ -86,6 +88,8 @@ public class Session {
         // Get the current time
         Timestamp currentTime = new Timestamp(System.currentTimeMillis());
         Timestamp timeoutTime = new Timestamp(lastUsed.getTime() + SESSION_TIMEOUT);
+        //ServiceLogger.LOGGER.info("current time:"+currentTime.toString());
+        //ServiceLogger.LOGGER.info("Timeout Time:"+timeoutTime);
         // Verify that the current time is not greater than the hard expiration time of the session
         if (currentTime.after(exprTime)) {
             return EXPIRED;
@@ -101,10 +105,12 @@ public class Session {
     }
 
     public boolean needToCreateNewSession(){
-        Timestamp testerTime = new Timestamp(System.currentTimeMillis()+SESSION_TIMEOUT);
-        if (testerTime.after(exprTime))
-            return true;
-        return false;
+        Timestamp testerTime = new Timestamp(exprTime.getTime()-SESSION_TIMEOUT);
+        ServiceLogger.LOGGER.info("tester time:"+testerTime.toString());
+        Timestamp currentTime = new Timestamp(System.currentTimeMillis());
+        if (testerTime.after(currentTime))
+            return false;
+        return true;
     }
     @Override
     /*

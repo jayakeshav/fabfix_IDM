@@ -93,7 +93,8 @@ public class SessionPage {
                     ServiceLogger.LOGGER.info("result code: "+(132));
                     responseModel = new SessionResponseModel(132,"Session is closed");
                 }
-                switch (session.getSessionStatus()){
+                else{
+                    switch (session.getSessionStatus()){
                     case ACTIVE:
                         ServiceLogger.LOGGER.info("result code: "+(130));
                         responseModel = new SessionResponseModel(130,"Session is active",sessionID);
@@ -107,8 +108,8 @@ public class SessionPage {
                     case REVOKED:
                         {   updateStatusStatement.setInt(1,REVOKED);
                             updateStatement.executeUpdate();
-                            ServiceLogger.LOGGER.info("result code: "+(130)+" but a new session is created");
                             if (session.needToCreateNewSession()){
+                                ServiceLogger.LOGGER.info("result code: "+(130)+" but a new session is created");
                                 Session  session1 = Session.createSession(email);
                                 String sessionString = "insert into sessions" +
                                         "(email, sessionID, status, timeCreated, lastUsed, exprTime) " +
@@ -124,10 +125,12 @@ public class SessionPage {
                             }
                             else
                                 {
+                                    ServiceLogger.LOGGER.info("result code: "+(133));
                                     responseModel = new SessionResponseModel(133,"Session is revoked");
                                 }
                             break;
                         }
+                }
                 }
                 return Response.status(Response.Status.OK).entity(responseModel).build();
             }

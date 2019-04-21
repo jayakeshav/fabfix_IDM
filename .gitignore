@@ -1,12 +1,10 @@
 # Ignore Gradle project-specific cache directory
 .gradle
-
+edu.uci.ics.jkotha.service.idm.iml
 # Ignore Gradle build output directory
-build
-
+ build
  .idea/
  config.yaml
  database_scripts/
- edu.uci.ics.jkotha.service.idm.iml
  logs/
  out/
