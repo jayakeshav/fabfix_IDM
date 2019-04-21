@@ -13,22 +13,31 @@ import java.util.regex.Pattern;
 
 public class FunctionsRequired {
     public static boolean isValidEmail(String email){
+        //String blanck = " ";
         String[] components1 = email.split("@",0);
-        //System.out.println(components1.length);
-        if (components1.length!=2)
+        //System.out.println(components1[0].length());
+        if (components1.length!=2 | components1[0].length()==0)
             return false;
         String[] components2 = components1[1].split("\\.",0);
         //System.out.println(components2.length);
-        if (components2.length!=2)
+        if (components2.length!=2 | components2[0].length()==0 | components2[1].length()==0)
             return false;
         return true;
     }
+
+//    public boolean isValidEmailAddress(String email) {
+//        String ePattern = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$";
+//        java.util.regex.Pattern p = java.util.regex.Pattern.compile(ePattern);
+//        java.util.regex.Matcher m = p.matcher(email);
+//        return m.matches();
+//    }
 
     public static boolean isValidPassowrd(char[] password){
         boolean isLowerCase = false,
                 isUppperCase = false,
                 isNumber = false,
-                isSpecialChar = false;
+                isSpecialChar = false,
+                result=false;
         for (char c: password){
            if(Character.isUpperCase(c)){
                isUppperCase=true;
@@ -40,15 +49,19 @@ public class FunctionsRequired {
                isNumber = true;
            }
            else {
-               if( c=='@'| c=='#'| c=='$' | c=='%' | c=='!')
+               if( (c>32 & c<48)|(c>57 & c<65) | (c>90 & c<97) | (c>122 & c<127))
                    isSpecialChar = true;
            }
+           result = isLowerCase & isNumber & isSpecialChar & isUppperCase;
+           if (result)
+               break;
         }
+        return result;
 
-        String pattern = "((?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%]).{7,16})";
-        Pattern p = Pattern.compile(pattern);
-        Matcher matcher = p.matcher(new String(password));
-        return matcher.matches();
+//        String pattern = "((?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%]).{7,16})";
+//        Pattern p = Pattern.compile(pattern);
+//        Matcher matcher = p.matcher(new String(password));
+//        return matcher.matches();
 
     }
 

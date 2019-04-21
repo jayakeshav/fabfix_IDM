@@ -13,6 +13,7 @@ import edu.uci.ics.jkotha.service.idm.models.SessionsRequestModel;
 import edu.uci.ics.jkotha.service.idm.security.Session;
 import edu.uci.ics.jkotha.service.idm.security.Token;
 import org.checkerframework.checker.units.qual.Time;
+import org.glassfish.jersey.internal.util.ExceptionUtils;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -47,15 +48,18 @@ public class SessionPage {
             String email = requestModel.getEmail();
             String sessionID = requestModel.getSessionID();
             if (!FunctionsRequired.isValidEmail(email)) {
-                responseModel = new SessionResponseModel(-11, "Email address has invalid format.",null);
+                ServiceLogger.LOGGER.info("result code: "+(-11));
+                responseModel = new SessionResponseModel(-11, "Email address has invalid format.");
                 return Response.status(Response.Status.BAD_REQUEST).entity(responseModel).build();
             }
             else if(email.length()>50){
-                responseModel = new SessionResponseModel(-10,"Email address is too long.",null);
+                ServiceLogger.LOGGER.info("result code: "+(-10));
+                responseModel = new SessionResponseModel(-10,"Email address has invalid length");
                 return Response.status(Response.Status.BAD_REQUEST).entity(responseModel).build();
             }
             else if(sessionID.length()>128){
-                responseModel = new SessionResponseModel(-13,"Token has invalid length.",null);
+                ServiceLogger.LOGGER.info("result code: "+(-13));
+                responseModel = new SessionResponseModel(-13,"Token has invalid length.");
                 return Response.status(Response.Status.BAD_REQUEST).entity(responseModel).build();
             }
             String statement = "select * from sessions where sessionID = ?";
@@ -68,24 +72,43 @@ public class SessionPage {
                         rs.getTimestamp("timeCreated"),
                         rs.getTimestamp("lastUsed"),
                         rs.getTimestamp("exprTime"));
+                String emailDB = rs.getString("email");
+                if (!emailDB.equals(email)){
+                    ServiceLogger.LOGGER.info("result code: "+(14));
+                    responseModel = new SessionResponseModel(14,"User not found");
+                    return Response.status(Response.Status.OK).entity(responseModel).build();
+                }
                 String updateString = "update sessions set lastUsed = ? where sessionID=?";
                 PreparedStatement updateStatement = BasicService.getCon().prepareStatement(updateString);
                 Timestamp now = new Timestamp(System.currentTimeMillis());
                 updateStatement.setTimestamp(1,now);
                 updateStatement.setString(2,sessionID);
                 updateStatement.execute();
+                String updateStatusString = "update sessions set status = ? where sessionID=?";
+                PreparedStatement updateStatusStatement = BasicService.getCon().prepareStatement(updateStatusString);
+                updateStatusStatement.setString(2,sessionID);
                 if(rs.getInt("status")==CLOSED){
-                    responseModel = new SessionResponseModel(132,"Session is closed",sessionID);
+                    updateStatusStatement.setInt(1,CLOSED);
+                    updateStatement.executeUpdate();
+                    ServiceLogger.LOGGER.info("result code: "+(132));
+                    responseModel = new SessionResponseModel(132,"Session is closed");
                 }
                 switch (session.getSessionStatus()){
                     case ACTIVE:
+                        ServiceLogger.LOGGER.info("result code: "+(130));
                         responseModel = new SessionResponseModel(130,"Session is active",sessionID);
                         break;
                     case EXPIRED:
-                        responseModel = new SessionResponseModel(131,"Session is expired",sessionID);
+                        updateStatusStatement.setInt(1,EXPIRED);
+                        updateStatement.executeUpdate();
+                        ServiceLogger.LOGGER.info("result code: "+(131));
+                        responseModel = new SessionResponseModel(131,"Session is expired");
                         break;
                     case REVOKED:
-                        {   if (session.needToCreateNewSession()){
+                        {   updateStatusStatement.setInt(1,REVOKED);
+                            updateStatement.executeUpdate();
+                            ServiceLogger.LOGGER.info("result code: "+(130)+" but a new session is created");
+                            if (session.needToCreateNewSession()){
                                 Session  session1 = Session.createSession(email);
                                 String sessionString = "insert into sessions" +
                                         "(email, sessionID, status, timeCreated, lastUsed, exprTime) " +
@@ -97,11 +120,11 @@ public class SessionPage {
                                 sessionStatement.setTimestamp(4,session1.getLastUsed());
                                 sessionStatement.setTimestamp(5,session1.getExprTime());
                                 sessionStatement.execute();
-                                responseModel = new SessionResponseModel(133,"Session is revoked",session1.getSessionID().toString());
+                                responseModel = new SessionResponseModel(130,"Session is active",session1.getSessionID().toString());
                             }
                             else
                                 {
-                                    responseModel = new SessionResponseModel(133,"Session is revoked",sessionID);
+                                    responseModel = new SessionResponseModel(133,"Session is revoked");
                                 }
                             break;
                         }
@@ -109,16 +132,17 @@ public class SessionPage {
                 return Response.status(Response.Status.OK).entity(responseModel).build();
             }
             else {
-                responseModel = new SessionResponseModel(134,"Session not found", null);
+                ServiceLogger.LOGGER.info("result code: "+(134));
+                responseModel = new SessionResponseModel(134,"Session not found");
                 return Response.status(Response.Status.OK).entity(responseModel).build();
             }
 
-        }catch (IOException | SQLException excep){
-            excep.printStackTrace();
-            if (excep instanceof JsonMappingException)
-            responseModel = new SessionResponseModel(-2,"JSON Parse Exception.",null);
-            else if(excep instanceof JsonParseException)
-                responseModel = new SessionResponseModel(-3,"JSON Mapping Exception.",null);
+        }catch (IOException | SQLException e){
+            ServiceLogger.LOGGER.warning(ExceptionUtils.exceptionStackTraceAsString(e));
+            if (e instanceof JsonMappingException)
+                responseModel = new SessionResponseModel(-2,"JSON Mapping Exception.");
+            else if(e instanceof JsonParseException)
+                responseModel = new SessionResponseModel(-3,"JSON Parse Exception.");
             else
                 return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
             return Response.status(Response.Status.BAD_REQUEST).entity(responseModel).build();

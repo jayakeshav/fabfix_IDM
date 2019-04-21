@@ -10,6 +10,7 @@ import edu.uci.ics.jkotha.service.idm.models.LoginRequestModel;
 import edu.uci.ics.jkotha.service.idm.models.LoginResponseModel;
 import edu.uci.ics.jkotha.service.idm.security.Crypto;
 import edu.uci.ics.jkotha.service.idm.security.Session;
+import org.glassfish.jersey.internal.util.ExceptionUtils;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -37,14 +38,28 @@ public class LoginPage {
             String email = requestModel.getEmail();
             char[] password = requestModel.getPassword();
             if (!FunctionsRequired.isValidEmail(email)) {
-                responseModel = new LoginResponseModel(-11, "Email address has invalid format.", null);
+                ServiceLogger.LOGGER.info("result code: "+(-11));
+                responseModel = new LoginResponseModel(-11, "Email address has invalid format.");
                 return Response.status(Response.Status.BAD_REQUEST).entity(responseModel).build();
             } else if (email.length() > 50) {
-                responseModel = new LoginResponseModel(-10, "Email address is too long.", null);
+                ServiceLogger.LOGGER.info("result code: "+(-10));
+                responseModel = new LoginResponseModel(-10, "Email address has invalid length");
                 return Response.status(Response.Status.BAD_REQUEST).entity(responseModel).build();
-            } else if (password.length == 0) {
-                responseModel = new LoginResponseModel(-12, "Password has invalid length (cannot be empty/null)", null);
+            }
+            else if (password==null){
+                ServiceLogger.LOGGER.info("result code: "+(-12));
+                responseModel = new LoginResponseModel(-12, "Password has invalid length (cannot be empty/null)");
                 return Response.status(Response.Status.BAD_REQUEST).entity(responseModel).build();
+            }
+            else if (password.length == 0) {
+                ServiceLogger.LOGGER.info("result code: "+(-12));
+                responseModel = new LoginResponseModel(-12, "Password has invalid length (cannot be empty/null)");
+                return Response.status(Response.Status.BAD_REQUEST).entity(responseModel).build();
+            }
+            else if(password.length>16 || password.length<7){
+                ServiceLogger.LOGGER.info("result code: "+(12));
+                responseModel = new LoginResponseModel(12,"Password Password does not meet length requirements.");
+                return Response.status(Response.Status.OK).entity(responseModel).build();
             }
             String statement = "select pword,salt,status from users where email = ?";
             PreparedStatement inputStatement = BasicService.getCon().prepareStatement(statement);
@@ -68,7 +83,8 @@ public class LoginPage {
                     boolean result = FunctionsRequired.isPasswordSame(hashedPassword, passwordDb);
                     String string = new String(passwordDb);
                     if (!result) {
-                        responseModel = new LoginResponseModel(11, "Passwords do not match", null);
+                        ServiceLogger.LOGGER.info("result code: "+(11));
+                        responseModel = new LoginResponseModel(11, "Passwords do not match");
                         return Response.status(Response.Status.OK).entity(responseModel).build();
                     }
                     Session session = Session.createSession(email);
@@ -81,20 +97,28 @@ public class LoginPage {
                     sessionStatement.setTimestamp(4, session.getLastUsed());
                     sessionStatement.setTimestamp(5, session.getExprTime());
                     sessionStatement.execute();
+                    ServiceLogger.LOGGER.info("result code: "+(120));
                     responseModel = new LoginResponseModel(120, "User logged in successfully", session.getSessionID().toString());
                     return Response.status(Response.Status.OK).entity(responseModel).build();
                 }
             }
-            responseModel = new LoginResponseModel(14, "User not found.", null);
+            ServiceLogger.LOGGER.info("result code: "+(14));
+            responseModel = new LoginResponseModel(14, "User not found.");
             return Response.status(Response.Status.OK).entity(responseModel).build();
-        } catch (IOException | SQLException e) {
-            e.printStackTrace();
-            if (e instanceof JsonMappingException)
-                responseModel = new LoginResponseModel(-2, "JSON Parse Exception.", null);
-            else if (e instanceof JsonParseException)
-                responseModel = new LoginResponseModel(-3, "JSON Mapping Exception.", null);
-            else
+        } catch (IOException | SQLException e){
+            ServiceLogger.LOGGER.warning(ExceptionUtils.exceptionStackTraceAsString(e));
+            if (e instanceof JsonMappingException){
+                ServiceLogger.LOGGER.info("result code: "+(-2));
+                responseModel = new LoginResponseModel(-2,"JSON Mapping Exception.");
+            }
+            else if(e instanceof JsonParseException) {
+                ServiceLogger.LOGGER.info("result code: " + (-3));
+                responseModel = new LoginResponseModel(-3, "JSON Parse Exception.");
+            }
+            else{
+                ServiceLogger.LOGGER.info("result code: "+(-1));
                 return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+            }
             return Response.status(Response.Status.BAD_REQUEST).entity(responseModel).build();
         }
     }

@@ -1,21 +1,32 @@
 package edu.uci.ics.jkotha.service.idm.models;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class SessionResponseModel {
+    @JsonProperty(required = true)
     private int resultCode;
+    @JsonProperty(required = true)
     private String message;
     private String sessionID;
 
     @JsonCreator
     public SessionResponseModel(
-            @JsonProperty(value = "resultCode",required = true) int resultCode,
-            @JsonProperty(value = "message",required = true) String message,
-            @JsonProperty(value = "sessionID",required = true) String sessionID) {
+            int resultCode,
+            String message,
+            String sessionID) {
         this.resultCode = resultCode;
         this.message = message;
         this.sessionID = sessionID;
+    }
+
+    @JsonCreator
+    public SessionResponseModel(int resultCode, String message) {
+        this.resultCode = resultCode;
+        this.message = message;
+        this.sessionID = null;
     }
 
     @JsonProperty

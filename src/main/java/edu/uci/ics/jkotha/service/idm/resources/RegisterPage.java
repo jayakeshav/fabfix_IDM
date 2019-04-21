@@ -9,6 +9,7 @@ import edu.uci.ics.jkotha.service.idm.models.DefaultResponseModel;
 import edu.uci.ics.jkotha.service.idm.models.FunctionsRequired;
 import edu.uci.ics.jkotha.service.idm.models.RegisterRequestModel;
 import edu.uci.ics.jkotha.service.idm.security.Crypto;
+import org.glassfish.jersey.internal.util.ExceptionUtils;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -36,24 +37,34 @@ public class RegisterPage {
             String email = requestModel.getEmail();
             char[] password = requestModel.getPassword();
             if (!FunctionsRequired.isValidEmail(email)) {
+                ServiceLogger.LOGGER.info("result code: "+(-11));
                 responseModel = new DefaultResponseModel(-11, "Email address has invalid format.");
                 return Response.status(Response.Status.BAD_REQUEST).entity(responseModel).build();
             }
             else if(email.length()>50){
-                responseModel = new DefaultResponseModel(-10,"Email address is too long.");
+                ServiceLogger.LOGGER.info("result code: "+(-10));
+                responseModel = new DefaultResponseModel(-10,"Email address has invalid length");
+                return Response.status(Response.Status.BAD_REQUEST).entity(responseModel).build();
+            }
+            else if (password == null){
+                ServiceLogger.LOGGER.info("result code: "+(-12));
+                responseModel = new DefaultResponseModel(-12,"Password has invalid length.");
                 return Response.status(Response.Status.BAD_REQUEST).entity(responseModel).build();
             }
             else if (password.length==0){
-                responseModel = new DefaultResponseModel(-12,"Password has invalid length (cannot be empty/null)");
+                ServiceLogger.LOGGER.info("result code: "+(-12));
+                responseModel = new DefaultResponseModel(-12,"Password has invalid length.");
                 return Response.status(Response.Status.BAD_REQUEST).entity(responseModel).build();
             }
             else if(password.length>16 || password.length<7){
+                ServiceLogger.LOGGER.info("result code: "+(12));
                 responseModel = new DefaultResponseModel(12,"Password does not meet length requirements");
-                return Response.status(Response.Status.UNAUTHORIZED).entity(responseModel).build();
+                return Response.status(Response.Status.OK).entity(responseModel).build();
             }
             else if(!FunctionsRequired.isValidPassowrd(password)){
+                ServiceLogger.LOGGER.info("result code: "+(13));
                 responseModel = new DefaultResponseModel(13,"Password does not meet character requirements");
-                return Response.status(Response.Status.UNAUTHORIZED).entity(responseModel).build();
+                return Response.status(Response.Status.OK).entity(responseModel).build();
             }
             String statement = "select count(*) as result from users where email = ?";
             PreparedStatement inputStatement = BasicService.getCon().prepareStatement(statement);
@@ -62,8 +73,9 @@ public class RegisterPage {
             if (rs.next()){
                 int result = rs.getInt("result");
                 if(result==1){
+                    ServiceLogger.LOGGER.info("result code: "+(16));
                     responseModel = new DefaultResponseModel(16,"Email already in use");
-                    return Response.status(Response.Status.UNAUTHORIZED).entity(responseModel).build();
+                    return Response.status(Response.Status.OK).entity(responseModel).build();
                 }
                 byte[] salt = Crypto.genSalt();
                 String insert = "insert into users(email, plevel, salt, pword,status) values (?,?,?,?,1)";//1=active user
@@ -73,19 +85,24 @@ public class RegisterPage {
                 insertStatement.setString(3,FunctionsRequired.getHashedPass(salt));
                 insertStatement.setString(4,FunctionsRequired.getHashedPass(Crypto.hashPassword(password,salt)));
                 insertStatement.execute();
+                ServiceLogger.LOGGER.info("result code: "+(110));
                 responseModel = new DefaultResponseModel(110,"User registered successfully");
                 return Response.status(Response.Status.OK).entity(responseModel).build();
             }
-        }catch (IOException  | SQLException e){
-            e.printStackTrace();
-            if(e instanceof JsonMappingException)
-                responseModel = new DefaultResponseModel(-2,"JSON Parse Exception.");
-            else if(e instanceof JsonParseException)
-                responseModel = new DefaultResponseModel(-3,"JSON Mapping Exception.");
-            else{
-                ServiceLogger.LOGGER.warning("SQLException thrown.");
+        }catch (IOException | SQLException e){
+            ServiceLogger.LOGGER.warning(ExceptionUtils.exceptionStackTraceAsString(e));
+            if (e instanceof JsonMappingException){
+                ServiceLogger.LOGGER.info("result code: "+(-2));
+                responseModel = new DefaultResponseModel(-2,"JSON Mapping Exception.");
+            }
+            else if(e instanceof JsonParseException){
+                ServiceLogger.LOGGER.info("result code: "+(-3));
+                responseModel = new DefaultResponseModel(-3,"JSON Parse Exception.");
+            }
+            else {
+                ServiceLogger.LOGGER.info("result code: "+(-1));
                 return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
-                }
+            }
             return Response.status(Response.Status.BAD_REQUEST).entity(responseModel).build();
         }
         return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();

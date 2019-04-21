@@ -7,6 +7,7 @@ import edu.uci.ics.jkotha.service.idm.BasicService;
 import edu.uci.ics.jkotha.service.idm.logger.ServiceLogger;
 import edu.uci.ics.jkotha.service.idm.models.*;
 import edu.uci.ics.jkotha.service.idm.security.Crypto;
+import org.glassfish.jersey.internal.util.ExceptionUtils;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -39,22 +40,32 @@ public class UsersPage2 {
             oldpword = requestModel.getOldpword();
             newpword = requestModel.getNewpword();
             if (!FunctionsRequired.isValidEmail(email)) {
+                ServiceLogger.LOGGER.info("result code: "+(-11));
                 responseModel = new DefaultResponseModel(-11, "Email address has invalid format.");
                 return Response.status(Response.Status.BAD_REQUEST).entity(responseModel).build();
             }
             else if(email.length()>50){
-                responseModel = new DefaultResponseModel(-10,"Email address is too long.");
+                ServiceLogger.LOGGER.info("result code: "+(-10));
+                responseModel = new DefaultResponseModel(-10,"Email address has invalid length");
+                return Response.status(Response.Status.BAD_REQUEST).entity(responseModel).build();
+            }
+            else if (oldpword == null | newpword== null){
+                ServiceLogger.LOGGER.info("result code: "+(-12));
+                responseModel = new DefaultResponseModel(-12,"Password has invalid length");
                 return Response.status(Response.Status.BAD_REQUEST).entity(responseModel).build();
             }
             else if (oldpword.length==0 | newpword.length==0){
+                ServiceLogger.LOGGER.info("result code: "+(-12));
                 responseModel = new DefaultResponseModel(-12,"Password has invalid length");
                 return Response.status(Response.Status.BAD_REQUEST).entity(responseModel).build();
             }
             else if (newpword.length>16 || newpword.length<7){
+                ServiceLogger.LOGGER.info("result code: "+(12));
                 responseModel = new DefaultResponseModel(12,"Password does not meet length requirements");
                 return Response.status(Response.Status.OK).entity(responseModel).build();
             }
             else if(!FunctionsRequired.isValidPassowrd(newpword)){
+                ServiceLogger.LOGGER.info("result code: "+(13));
                 responseModel = new DefaultResponseModel(13,"Password does not meet character requirements");
                 return Response.status(Response.Status.OK).entity(responseModel).build();
             }
@@ -68,6 +79,7 @@ public class UsersPage2 {
                 byte[] salt = FunctionsRequired.toByteArray(rs.getString("salt"));
                 char[] hashedPassword = FunctionsRequired.getHashedPass(Crypto.hashPassword(oldpword,salt)).toCharArray();
                 if (!FunctionsRequired.isPasswordSame(hashedPassword,passwordDb)){
+                    ServiceLogger.LOGGER.info("result code: "+(11));
                     responseModel = new DefaultResponseModel(11,"Passwords mismatch");
                     return Response.status(Response.Status.OK).entity(responseModel).build();
                 }
@@ -76,26 +88,27 @@ public class UsersPage2 {
                 updateStatement.setString(1,FunctionsRequired.getHashedPass(Crypto.hashPassword(newpword,salt)));
                 updateStatement.setString(2,email);
                 updateStatement.execute();
+                ServiceLogger.LOGGER.info("result code: "+(150));
                 responseModel = new DefaultResponseModel(150,"Password updated successfully");
                 return Response.status(Response.Status.OK).entity(responseModel).build();
 
             }
             else {
+                ServiceLogger.LOGGER.info("result code: "+(14));
                 responseModel = new DefaultResponseModel(14,"User not found");
                 return Response.status(Response.Status.OK).entity(responseModel).build();
             }
 
-        }catch (IOException e){
-            e.printStackTrace();
-            if(e instanceof JsonMappingException)
-                responseModel = new DefaultResponseModel(-2,"JSON Parse Exception.");
+        }catch (IOException | SQLException e){
+            ServiceLogger.LOGGER.warning(ExceptionUtils.exceptionStackTraceAsString(e));
+            if (e instanceof JsonMappingException)
+                responseModel = new DefaultResponseModel(-2,"JSON Mapping Exception.");
             else if(e instanceof JsonParseException)
-                responseModel = new DefaultResponseModel(-3,"JSON Mapping Exception.");
+                responseModel = new DefaultResponseModel(-3,"JSON Parse Exception.");
             else
                 return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
             return Response.status(Response.Status.BAD_REQUEST).entity(responseModel).build();
-        }catch (SQLException e){}
-        return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
     @Path("/create")
@@ -107,40 +120,53 @@ public class UsersPage2 {
         ObjectMapper mapper = new ObjectMapper();
         CreateRequestModel requestModel;
         DefaultResponseModel responseModel;
-        String email;
         int plevel;
+        String email;
+        String plevelString;
         char[] password;
         try {
             requestModel = mapper.readValue(jsonText,CreateRequestModel.class);
             email = requestModel.getEmail();
-            plevel = requestModel.getPlevel();//FunctionsRequired.getPlevel(requestModel.getPlevel());
+            plevelString = requestModel.getPlevel();//FunctionsRequired.getPlevel(requestModel.getPlevel());
             password = requestModel.getPassword();
+            plevel = FunctionsRequired.getPlevel(plevelString);
             if (!FunctionsRequired.isValidEmail(email)) {
+                ServiceLogger.LOGGER.info("result code: "+(-11));
                 responseModel = new DefaultResponseModel(-11, "Email address has invalid format.");
                 return Response.status(Response.Status.BAD_REQUEST).entity(responseModel).build();
             }
             else if(email.length()>50){
+                ServiceLogger.LOGGER.info("result code: "+(-10));
                 responseModel = new DefaultResponseModel(-10,"Email address has invalid length.");
                 return Response.status(Response.Status.BAD_REQUEST).entity(responseModel).build();
             }
+            else if(password==null){
+                ServiceLogger.LOGGER.info("result code: "+(-12));
+                responseModel = new DefaultResponseModel(-12,"Password has invalid length");
+                return Response.status(Response.Status.BAD_REQUEST).entity(responseModel).build();
+            }
             else if (password.length==0){
+                ServiceLogger.LOGGER.info("result code: "+(-12));
                 responseModel = new DefaultResponseModel(-12,"Password has invalid length");
                 return Response.status(Response.Status.BAD_REQUEST).entity(responseModel).build();
             }
             else if(plevel>5 | plevel < 0){
-                ServiceLogger.LOGGER.info(""+plevel);
+                ServiceLogger.LOGGER.info("result code: "+(-14));
                 responseModel = new DefaultResponseModel(-14,"privilege level out of range");
                 return Response.status(Response.Status.BAD_REQUEST).entity(responseModel).build();
             }
             else if(password.length>16 || password.length<7){
+                ServiceLogger.LOGGER.info("result code: "+(12));
                 responseModel = new DefaultResponseModel(12,"Password does not meet length requirements");
                 return Response.status(Response.Status.OK).entity(responseModel).build();
             }
             else if(!FunctionsRequired.isValidPassowrd(password)){
+                ServiceLogger.LOGGER.info("result code: "+(13));
                 responseModel = new DefaultResponseModel(13,"Password does not meet character requirements");
                 return Response.status(Response.Status.OK).entity(responseModel).build();
             }
             else if(plevel==1){
+                ServiceLogger.LOGGER.info("result code: "+(171));
                 responseModel = new DefaultResponseModel(171,"Creating user with 'ROOT' privilege is not allowed.");
                 return Response.status(Response.Status.OK).entity(responseModel).build();
             }
@@ -151,6 +177,7 @@ public class UsersPage2 {
             if (rs.next()){
                 int result = rs.getInt("result");
                 if(result==1){
+                    ServiceLogger.LOGGER.info("result code: "+(16));
                     responseModel = new DefaultResponseModel(16,"Email already in use");
                     return Response.status(Response.Status.OK).entity(responseModel).build();
                 }
@@ -162,16 +189,17 @@ public class UsersPage2 {
                 insertStatement.setString(3,FunctionsRequired.getHashedPass(salt));
                 insertStatement.setString(4,FunctionsRequired.getHashedPass(Crypto.hashPassword(password,salt)));
                 insertStatement.execute();
+                ServiceLogger.LOGGER.info("result code: "+(170));
                 responseModel = new DefaultResponseModel(170,"User created");
                 return Response.status(Response.Status.OK).entity(responseModel).build();
             }
         }
         catch (IOException | SQLException e){
-            e.printStackTrace();
+            ServiceLogger.LOGGER.warning(ExceptionUtils.exceptionStackTraceAsString(e));
             if (e instanceof JsonMappingException)
-                responseModel = new DefaultResponseModel(-2,"JSON Parse Exception.");
+                responseModel = new DefaultResponseModel(-2,"JSON Mapping Exception.");
             else if(e instanceof JsonParseException)
-                responseModel = new DefaultResponseModel(-3,"JSON Mapping Exception.");
+                responseModel = new DefaultResponseModel(-3,"JSON Parse Exception.");
             else
                 return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
             return Response.status(Response.Status.BAD_REQUEST).entity(responseModel).build();

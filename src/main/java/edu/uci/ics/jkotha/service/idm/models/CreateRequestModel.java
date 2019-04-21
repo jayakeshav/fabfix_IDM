@@ -5,13 +5,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class CreateRequestModel {
     private String email;
-    private int plevel;
+    private String plevel;
     private char[] password;
 
     @JsonCreator
     public CreateRequestModel(
             @JsonProperty(value = "email",required = true) String email,
-            @JsonProperty(value = "plevel", required = true) int plevel,
+            @JsonProperty(value = "plevel", required = true) String plevel,
             @JsonProperty(value = "password", required = true) char[] password) {
         this.email = email;
         this.plevel = plevel;
@@ -24,7 +24,7 @@ public class CreateRequestModel {
     }
 
     @JsonProperty
-    public int getPlevel() {
+    public String getPlevel() {
         return plevel;
     }
 

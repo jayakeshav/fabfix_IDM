@@ -5,6 +5,7 @@ import edu.uci.ics.jkotha.service.idm.logger.ServiceLogger;
 import edu.uci.ics.jkotha.service.idm.models.FunctionsRequired;
 import edu.uci.ics.jkotha.service.idm.models.QueryResponseModel;
 import edu.uci.ics.jkotha.service.idm.models.UserModel;
+import org.glassfish.jersey.internal.util.ExceptionUtils;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -22,20 +23,23 @@ public class UsersPage1 {
     public Response userCred(
             @QueryParam(value = "id") int id,
             @QueryParam(value = "email") String email,
-            @QueryParam(value = "plevel") int plevel
+            @QueryParam(value = "plevel") String plevel1
     ){
         ServiceLogger.LOGGER.info("user? page");
         QueryResponseModel responseModel;
-
+        int plevel = FunctionsRequired.getPlevel(plevel1);
         if(email!=null) {
             if (id < 0) {
-                responseModel = new QueryResponseModel(-15, "User ID number is out of valid range.", null);
+                ServiceLogger.LOGGER.info("result code: "+(-15));
+                responseModel = new QueryResponseModel(-15, "User ID number is out of valid range.");
                 return Response.status(Response.Status.BAD_REQUEST).entity(responseModel).build();
             } else if (!FunctionsRequired.isValidEmail(email)) {
-                responseModel = new QueryResponseModel(-11, "Email address has invalid format.", null);
+                ServiceLogger.LOGGER.info("result code: "+(-11));
+                responseModel = new QueryResponseModel(-11, "Email address has invalid format.");
                 return Response.status(Response.Status.BAD_REQUEST).entity(responseModel).build();
             } else if (email.length() > 50) {
-                responseModel = new QueryResponseModel(-10, "Email address is too long.", null);
+                ServiceLogger.LOGGER.info("result code: "+(-10));
+                responseModel = new QueryResponseModel(-10, "Email address has invalid length");
                 return Response.status(Response.Status.BAD_REQUEST).entity(responseModel).build();
             }
         }
@@ -47,6 +51,7 @@ public class UsersPage1 {
                 if (rs.next()){
                     rs.previous();
                     UserModel[] resultArray = FunctionsRequired.toUserArray(rs);
+                    ServiceLogger.LOGGER.info("result code: "+(160));
                     responseModel = new QueryResponseModel(160,"all User successfully retrieved.",resultArray);
                     return Response.status(Response.Status.OK).entity(responseModel).build();
                 }
@@ -61,14 +66,16 @@ public class UsersPage1 {
             if (rs.next()){
                 rs.previous();
                 UserModel[] resultArray = FunctionsRequired.toUserArray(rs);
+                ServiceLogger.LOGGER.info("result code: "+(160));
                 responseModel = new QueryResponseModel(160,"User successfully retrieved.",resultArray);
                 return Response.status(Response.Status.OK).entity(responseModel).build();
             }
-            responseModel = new QueryResponseModel(14, "User not found", null);
+            ServiceLogger.LOGGER.info("result code: "+(14));
+            responseModel = new QueryResponseModel(14, "User not found");
             return Response.status(Response.Status.OK).entity(responseModel).build();
         }catch (SQLException e){
-            e.printStackTrace();
             ServiceLogger.LOGGER.warning("SQL exception");
+            ServiceLogger.LOGGER.warning(ExceptionUtils.exceptionStackTraceAsString(e));
         }
         return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
     }

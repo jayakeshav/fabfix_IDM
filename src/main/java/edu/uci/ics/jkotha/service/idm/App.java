@@ -10,23 +10,27 @@ import java.util.regex.Pattern;
 public class App {
     public static void main(String[] args) {
 
-        char[] password = {'d','2','d','4','7','@','3','S'};
-        System.out.println(password);
-        byte[] salt=Crypto.genSalt();
-        byte[] hashedpassword = Crypto.hashPassword(password,salt);
-        String saltString =  FunctionsRequired.getHashedPass(salt);
-        byte[] saltRebuilt = FunctionsRequired.toByteArray(saltString);
-        byte[] rebuithasedPassword = Crypto.hashPassword(password,saltRebuilt);
-       try {
-           System.out.println(FunctionsRequired.getHashedPass(salt));
-           System.out.println(FunctionsRequired.getHashedPass(hashedpassword));
-           System.out.println(saltString);
-           System.out.println(FunctionsRequired.getHashedPass(saltRebuilt));
-           System.out.println(FunctionsRequired.getHashedPass(rebuithasedPassword));
 
-       }catch (Exception e){
-           e.printStackTrace();
-       }
+        String email = "@abc.com";
+        System.out.println(FunctionsRequired.isValidEmail(email));
+
+//        char[] password = {'d','2','d','4','7','@','3','S'};
+//        System.out.println(password);
+//        byte[] salt=Crypto.genSalt();
+//        byte[] hashedpassword = Crypto.hashPassword(password,salt);
+//        String saltString =  FunctionsRequired.getHashedPass(salt);
+//        byte[] saltRebuilt = FunctionsRequired.toByteArray(saltString);
+//        byte[] rebuithasedPassword = Crypto.hashPassword(password,saltRebuilt);
+//       try {
+//           System.out.println(FunctionsRequired.getHashedPass(salt));
+//           System.out.println(FunctionsRequired.getHashedPass(hashedpassword));
+//           System.out.println(saltString);
+//           System.out.println(FunctionsRequired.getHashedPass(saltRebuilt));
+//           System.out.println(FunctionsRequired.getHashedPass(rebuithasedPassword));
+//
+//       }catch (Exception e){
+//           e.printStackTrace();
+//       }
     }
 
     private static boolean isValidEmail(String email){

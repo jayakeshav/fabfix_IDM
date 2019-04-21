@@ -7,6 +7,7 @@ import edu.uci.ics.jkotha.service.idm.logger.ServiceLogger;
 import edu.uci.ics.jkotha.service.idm.models.ConfigsModel;
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
+import org.glassfish.jersey.internal.util.ExceptionUtils;
 import org.glassfish.jersey.jackson.JacksonFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 
@@ -16,6 +17,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class BasicService {
@@ -178,10 +180,12 @@ public class BasicService {
             ServiceLogger.LOGGER.config("Database URL: " + url);
             // Initialize connection
                 con = DriverManager.getConnection(url,username,password);
-           ServiceLogger.LOGGER.config("Connected to database: " + con.toString());
+            String test = "2+2";
+            PreparedStatement statement =con.prepareStatement(test);
+            statement.execute();
+            ServiceLogger.LOGGER.config("Connected to database: " + configs.getDbName());
         } catch (Exception e) {
             // Listing the exception types invidually allows you to use different handlers if you choose to
-            e.printStackTrace();
             if (e instanceof ClassCastException) {
                 ServiceLogger.LOGGER.warning("ClassCastException");
             }
@@ -191,6 +195,7 @@ public class BasicService {
             if (e instanceof NullPointerException) {
                 ServiceLogger.LOGGER.warning("NullPointerException");
             }
+            ServiceLogger.LOGGER.warning(ExceptionUtils.exceptionStackTraceAsString(e));
         }
     }
 
