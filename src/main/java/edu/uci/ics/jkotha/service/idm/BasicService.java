@@ -179,10 +179,7 @@ public class BasicService {
             Class.forName(driver);
             ServiceLogger.LOGGER.config("Database URL: " + url);
             // Initialize connection
-                con = DriverManager.getConnection(url,username,password);
-            String test = "2+2";
-            PreparedStatement statement =con.prepareStatement(test);
-            statement.execute();
+            con = DriverManager.getConnection(url,username,password);
             ServiceLogger.LOGGER.config("Connected to database: " + configs.getDbName());
         } catch (Exception e) {
             // Listing the exception types invidually allows you to use different handlers if you choose to

@@ -2,91 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="bfc8cf54-4868-43d7-af07-a9c1b4cfdf94" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_fasterxml_jackson_core_jackson_annotations_2_9_8.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_fasterxml_jackson_core_jackson_core_2_9_8.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_fasterxml_jackson_core_jackson_databind_2_9_8.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_fasterxml_jackson_dataformat_jackson_dataformat_yaml_2_9_8.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_fasterxml_jackson_jaxrs_jackson_jaxrs_base_2_9_8.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_fasterxml_jackson_jaxrs_jackson_jaxrs_json_provider_2_9_8.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_fasterxml_jackson_module_jackson_module_jaxb_annotations_2_9_8.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_google_code_findbugs_jsr305_3_0_2.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_google_errorprone_error_prone_annotations_2_2_0.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_google_guava_failureaccess_1_0_1.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_google_guava_guava_27_0_1_jre.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_google_guava_listenablefuture_9999_0_empty_to_avoid_conflict_with_guava.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_google_j2objc_j2objc_annotations_1_1.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_google_protobuf_protobuf_java_3_6_1.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__commons_codec_commons_codec_1_12.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__jakarta_annotation_jakarta_annotation_api_1_3_4.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__jakarta_ws_rs_jakarta_ws_rs_api_2_1_5.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__javax_validation_validation_api_2_0_1_Final.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__javax_ws_rs_javax_ws_rs_api_2_1_1.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__junit_junit_4_12.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__mysql_mysql_connector_java_8_0_15.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_checkerframework_checker_qual_2_5_2.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_codehaus_mojo_animal_sniffer_annotations_1_17.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_glassfish_grizzly_grizzly_framework_2_4_4.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_glassfish_grizzly_grizzly_http_2_4_4.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_glassfish_grizzly_grizzly_http_server_2_4_4.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_glassfish_grizzly_grizzly_http_servlet_2_4_4.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_glassfish_hk2_external_aopalliance_repackaged_2_5_0.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_glassfish_hk2_external_jakarta_inject_2_5_0.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_glassfish_hk2_hk2_api_2_5_0.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_glassfish_hk2_hk2_locator_2_5_0.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_glassfish_hk2_hk2_utils_2_5_0.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_glassfish_hk2_osgi_resource_locator_1_0_1.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_glassfish_jersey_containers_jersey_container_grizzly2_http_2_28.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_glassfish_jersey_core_jersey_client_2_28.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_glassfish_jersey_core_jersey_common_2_28.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_glassfish_jersey_core_jersey_server_2_28.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_glassfish_jersey_ext_jersey_entity_filtering_2_28.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_glassfish_jersey_inject_jersey_hk2_2_28.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_glassfish_jersey_media_jersey_media_jaxb_2_28.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_glassfish_jersey_media_jersey_media_json_jackson_2_28.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_glassfish_jersey_project_pom_2_28.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_hamcrest_hamcrest_core_1_3.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_javassist_javassist_3_22_0_CR2.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_yaml_snakeyaml_1_23.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules/edu.uci.ics.jkotha.service.idm.main.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules/edu.uci.ics.jkotha.service.idm.test.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/edu.uci.ics.jkotha.service.idm.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/edu/uci/ics/jkotha/service/idm/BasicService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/edu/uci/ics/jkotha/service/idm/Configs/Configs.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/edu/uci/ics/jkotha/service/idm/logger/ServiceFormatter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/edu/uci/ics/jkotha/service/idm/logger/ServiceLogger.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/edu/uci/ics/jkotha/service/idm/models/ConfigsModel.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/edu/uci/ics/jkotha/service/idm/models/CreateRequestModel.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/edu/uci/ics/jkotha/service/idm/models/DefaultResponseModel.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/edu/uci/ics/jkotha/service/idm/models/FunctionsRequired.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/edu/uci/ics/jkotha/service/idm/models/LoginRequestModel.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/edu/uci/ics/jkotha/service/idm/models/LoginResponseModel.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/edu/uci/ics/jkotha/service/idm/models/PrivilegeRequestModel.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/edu/uci/ics/jkotha/service/idm/models/QueryResponseModel.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/edu/uci/ics/jkotha/service/idm/models/RegisterRequestModel.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/edu/uci/ics/jkotha/service/idm/models/SessionResponseModel.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/edu/uci/ics/jkotha/service/idm/models/SessionsRequestModel.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/edu/uci/ics/jkotha/service/idm/models/UpdatePasswordRequestModel.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/edu/uci/ics/jkotha/service/idm/models/UpdateRequestModel.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/edu/uci/ics/jkotha/service/idm/models/UserModel.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/edu/uci/ics/jkotha/service/idm/resources/LoginPage.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/edu/uci/ics/jkotha/service/idm/resources/PrivilegePage.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/edu/uci/ics/jkotha/service/idm/resources/RegisterPage.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/edu/uci/ics/jkotha/service/idm/resources/UsersPage1.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/edu/uci/ics/jkotha/service/idm/resources/UsersPage2.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/edu/uci/ics/jkotha/service/idm/security/Crypto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/edu/uci/ics/jkotha/service/idm/security/Session.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/edu/uci/ics/jkotha/service/idm/security/Token.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/uci/ics/jkotha/service/idm/resources/SessionPage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/uci/ics/jkotha/service/idm/resources/SessionPage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/uci/ics/jkotha/service/idm/BasicService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/uci/ics/jkotha/service/idm/BasicService.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/classes/" />
     <ignored path="$PROJECT_DIR$/.gradle/" />
@@ -169,18 +86,6 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/edu/uci/ics/jkotha/service/idm/resources/UsersPage2.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3502">
-              <caret line="224" column="40" selection-start-line="224" selection-start-column="40" selection-end-line="224" selection-end-column="40" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/.gitignore">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="153">
@@ -249,10 +154,10 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/edu/uci/ics/jkotha/service/idm/resources/SessionPage.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="91">
+            <state relative-caret-position="335">
               <caret line="159" column="82" selection-start-line="159" selection-start-column="82" selection-end-line="159" selection-end-column="82" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -260,6 +165,18 @@
                 <element signature="e#2277#2555#1" />
                 <element signature="e#2599#2870#1" />
                 <element signature="e#7540#7794#1" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/edu/uci/ics/jkotha/service/idm/BasicService.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="91">
+              <caret line="181" column="69" selection-start-line="181" selection-start-column="69" selection-end-line="181" selection-end-column="69" />
+              <folding>
+                <element signature="imports" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -327,7 +244,6 @@
         <option value="$PROJECT_DIR$/src/main/java/edu/uci/ics/jkotha/service/idm/models/RegisterRequestModel.java" />
         <option value="$PROJECT_DIR$/src/main/java/edu/uci/ics/jkotha/service/idm/models/FunctionsRequired.java" />
         <option value="$PROJECT_DIR$/src/main/java/edu/uci/ics/jkotha/service/idm/models/CreateRequestModel.java" />
-        <option value="$PROJECT_DIR$/src/main/java/edu/uci/ics/jkotha/service/idm/BasicService.java" />
         <option value="$PROJECT_DIR$/src/main/java/edu/uci/ics/jkotha/service/idm/resources/UsersPage2.java" />
         <option value="$PROJECT_DIR$/src/main/java/edu/uci/ics/jkotha/service/idm/resources/PrivilegePage.java" />
         <option value="$PROJECT_DIR$/src/main/java/edu/uci/ics/jkotha/service/idm/models/LoginRequestModel.java" />
@@ -340,6 +256,7 @@
         <option value="$PROJECT_DIR$/src/main/java/edu/uci/ics/jkotha/service/idm/security/Session.java" />
         <option value="$PROJECT_DIR$/src/main/java/edu/uci/ics/jkotha/service/idm/resources/UsersPage1.java" />
         <option value="$PROJECT_DIR$/src/main/java/edu/uci/ics/jkotha/service/idm/resources/SessionPage.java" />
+        <option value="$PROJECT_DIR$/src/main/java/edu/uci/ics/jkotha/service/idm/BasicService.java" />
       </list>
     </option>
   </component>
@@ -534,7 +451,7 @@
       <workItem from="1555704065289" duration="2522000" />
       <workItem from="1555708094947" duration="29152000" />
       <workItem from="1555874579021" duration="4654000" />
-      <workItem from="1555883962325" duration="4975000" />
+      <workItem from="1555883962325" duration="5822000" />
     </task>
     <task id="LOCAL-00001" summary="&quot;tester&quot;">
       <created>1555735930664</created>
@@ -564,11 +481,18 @@
       <option name="project" value="LOCAL" />
       <updated>1555879424680</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="&quot;update V4.0&quot;">
+      <created>1555891793108</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1555891793108</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="105709000" />
+    <option name="totallyTimeSpent" value="106556000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -667,7 +591,8 @@
     <MESSAGE value="&quot;update&quot;" />
     <MESSAGE value="&quot;update V2.0&quot;" />
     <MESSAGE value="&quot;update V3.0&quot;" />
-    <option name="LAST_COMMIT_MESSAGE" value="&quot;update V3.0&quot;" />
+    <MESSAGE value="&quot;update V4.0&quot;" />
+    <option name="LAST_COMMIT_MESSAGE" value="&quot;update V4.0&quot;" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/src/main/java/edu/uci/ics/jkotha/service/idm/DBAccess/DbAccess.java" />
@@ -979,16 +904,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/edu/uci/ics/jkotha/service/idm/BasicService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-5">
-          <caret line="148" column="24" lean-forward="true" selection-start-line="148" selection-start-column="24" selection-end-line="148" selection-end-column="24" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/edu/uci/ics/jkotha/service/idm/models/LoginResponseModel.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="403">
@@ -1108,7 +1023,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/edu/uci/ics/jkotha/service/idm/resources/SessionPage.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="91">
+        <state relative-caret-position="335">
           <caret line="159" column="82" selection-start-line="159" selection-start-column="82" selection-end-line="159" selection-end-column="82" />
           <folding>
             <element signature="imports" expanded="true" />
@@ -1116,6 +1031,16 @@
             <element signature="e#2277#2555#1" />
             <element signature="e#2599#2870#1" />
             <element signature="e#7540#7794#1" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/edu/uci/ics/jkotha/service/idm/BasicService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="91">
+          <caret line="181" column="69" selection-start-line="181" selection-start-column="69" selection-end-line="181" selection-end-column="69" />
+          <folding>
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
