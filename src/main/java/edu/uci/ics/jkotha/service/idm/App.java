@@ -11,7 +11,7 @@ public class App {
     public static void main(String[] args) {
 
 
-        String email = "@abc.com";
+        String email = "johndoe@uci811.edu";
         System.out.println(FunctionsRequired.isValidEmail(email));
 
 //        char[] password = {'d','2','d','4','7','@','3','S'};

@@ -1,12 +1,13 @@
 package edu.uci.ics.jkotha.service.idm.security;
 
+import edu.uci.ics.jkotha.service.idm.BasicService;
 import edu.uci.ics.jkotha.service.idm.logger.ServiceLogger;
 
 import java.sql.Timestamp;
 
 public class Session {
-    public static final long SESSION_TIMEOUT = 600000; // 10-minute timeout
-    public static final long TOKEN_EXPR = 1800000; // 30-minute expiration
+    public static final long SESSION_TIMEOUT = BasicService.getConfigs().getSession_timeout();// 600000; // 10-minute timeout
+    public static final long TOKEN_EXPR = BasicService.getConfigs().getToken_expr();// 1800000; // 30-minute expiration
     public static final int ACTIVE = 1;
     public static final int CLOSED = 2;
     public static final int EXPIRED = 3;
@@ -39,7 +40,7 @@ public class Session {
         this.email = email;
         this.sessionID = sessionID;
         this.timeCreated = timeCreated;
-        this.lastUsed = timeCreated;
+        this.lastUsed = lastUsed;
         this.exprTime = exprTime;
     }
 
@@ -105,12 +106,12 @@ public class Session {
     }
 
     public boolean needToCreateNewSession(){
-        Timestamp testerTime = new Timestamp(exprTime.getTime()-SESSION_TIMEOUT);
-        ServiceLogger.LOGGER.info("tester time:"+testerTime.toString());
         Timestamp currentTime = new Timestamp(System.currentTimeMillis());
-        if (testerTime.after(currentTime))
-            return false;
-        return true;
+        Timestamp testerTime = new Timestamp(currentTime.getTime()+SESSION_TIMEOUT);
+        //ServiceLogger.LOGGER.info("tester time:"+testerTime.toString());
+        if (testerTime.after(exprTime))
+            return true;
+        return false;
     }
     @Override
     /*

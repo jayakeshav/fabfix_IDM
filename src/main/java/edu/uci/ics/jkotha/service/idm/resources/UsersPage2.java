@@ -208,26 +208,78 @@ public class UsersPage2 {
         return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
     }
 
-//    @Path("/update")
-//    @POST
-//    @Produces(MediaType.APPLICATION_JSON)
-//    @Consumes(MediaType.APPLICATION_JSON)
-//    public Response update(String jsonText){
-//        ServiceLogger.LOGGER.info("user/update page requested");
-//        ObjectMapper mapper = new ObjectMapper();
-//        UpdateRequestModel requestModel;
-//        DefaultResponseModel responseModel;
-//        String email;
-//        int plevel;
-//        int id;
-//        try {
-//            requestModel = mapper.readValue(jsonText,UpdateRequestModel.class);
-//            id = requestModel.getId();
-//            email = requestModel.getEmail();
-//            plevel = FunctionsRequired.getPlevel(requestModel.getPlevel());
-//
-//        }catch (IOException e){
-//        }
-//
-//    }
+    @Path("/update")
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response update(String jsonText){
+        ServiceLogger.LOGGER.info("user/update page requested");
+        ObjectMapper mapper = new ObjectMapper();
+        UpdateRequestModel requestModel;
+        DefaultResponseModel responseModel;
+        String email;
+        int plevel;
+        int id;
+        try {
+            requestModel = mapper.readValue(jsonText,UpdateRequestModel.class);
+            id = requestModel.getId();
+            email = requestModel.getEmail();
+            plevel = FunctionsRequired.getPlevel(requestModel.getPlevel());
+            if (id<=0){
+                ServiceLogger.LOGGER.info("result code: "+(-15));
+                responseModel = new DefaultResponseModel(-15, "User ID number of range.");
+                return Response.status(Response.Status.BAD_REQUEST).entity(responseModel).build();
+            }
+            else if(plevel<=0 | plevel>5){
+                ServiceLogger.LOGGER.info("result code: "+(-14));
+                responseModel = new DefaultResponseModel(-14, "Privilege level out of range");
+                return Response.status(Response.Status.BAD_REQUEST).entity(responseModel).build();
+            }
+            else if (!FunctionsRequired.isValidEmail(email)) {
+                ServiceLogger.LOGGER.info("result code: "+(-11));
+                responseModel = new DefaultResponseModel(-11, "Email address has invalid format.");
+                return Response.status(Response.Status.BAD_REQUEST).entity(responseModel).build();
+            }
+            else if(email.length()>50){
+                ServiceLogger.LOGGER.info("result code: "+(-10));
+                responseModel = new DefaultResponseModel(-10,"Email address has invalid length.");
+                return Response.status(Response.Status.BAD_REQUEST).entity(responseModel).build();
+            }
+
+            String getUserString = "select plevel,email,id from users where email = ?";
+            PreparedStatement getUserStatement = BasicService.getCon().prepareStatement(getUserString);
+            getUserStatement.setString(1,email);
+            ResultSet rs = getUserStatement.executeQuery();
+            if(rs.next()){
+                if(plevel==1){
+                    ServiceLogger.LOGGER.info("result code: "+(181));
+                    responseModel = new DefaultResponseModel(181,"Users cannot be elevated to root privilege level.");
+                    return Response.status(Response.Status.OK).entity(responseModel).build();
+                }
+                String updateString = "update users set plevel = ? where email=?";
+                PreparedStatement updateStatement = BasicService.getCon().prepareStatement(updateString);
+                updateStatement.setInt(1,plevel);
+                updateStatement.setString(2,email);
+                updateStatement.executeUpdate();
+                ServiceLogger.LOGGER.info("result code: "+(180));
+                responseModel = new DefaultResponseModel(180,"User updated");
+                return Response.status(Response.Status.OK).entity(responseModel).build();
+            }
+            else {
+                ServiceLogger.LOGGER.info("result code: "+(14));
+                responseModel = new DefaultResponseModel(14,"User not found");
+                return Response.status(Response.Status.OK).entity(responseModel).build();
+            }
+
+        }catch (IOException | SQLException e){
+            ServiceLogger.LOGGER.warning(ExceptionUtils.exceptionStackTraceAsString(e));
+            if (e instanceof JsonMappingException)
+                responseModel = new DefaultResponseModel(-2,"JSON Mapping Exception.");
+            else if(e instanceof JsonParseException)
+                responseModel = new DefaultResponseModel(-3,"JSON Parse Exception.");
+            else
+                return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+            return Response.status(Response.Status.BAD_REQUEST).entity(responseModel).build();
+        }
+    }
 }

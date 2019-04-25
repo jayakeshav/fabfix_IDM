@@ -20,8 +20,14 @@ public class FunctionsRequired {
             return false;
         String[] components2 = components1[1].split("\\.",0);
         //System.out.println(components2.length);
-        if (components2.length!=2 | components2[0].length()==0 | components2[1].length()==0)
+        if (components2.length<2 ){
             return false;
+        }
+        else {
+            if( components2[0].length()==0 | components2[1].length()==0)
+                return false;
+        }
+
         return true;
     }
 

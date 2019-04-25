@@ -99,8 +99,8 @@ public class SessionPage {
                     switch (session.getSessionStatus()) {
                         case ACTIVE:
                             if (session.needToCreateNewSession()) {
-                                updateStatusStatement.setInt(1, REVOKED);
-                                updateStatement.executeUpdate();
+                                updateStatusStatement.setInt(1, 4);
+                                updateStatusStatement.executeUpdate();
                                 ServiceLogger.LOGGER.info("result code: " + (130) + " but a new session is created");
                                 Session session1 = Session.createSession(email);
                                 String sessionString = "insert into sessions" +
@@ -121,14 +121,14 @@ public class SessionPage {
                             }
                             break;
                         case EXPIRED:
-                            updateStatusStatement.setInt(1, EXPIRED);
-                            updateStatement.executeUpdate();
+                            updateStatusStatement.setInt(1, 3);
+                            updateStatusStatement.executeUpdate();
                             ServiceLogger.LOGGER.info("result code: " + (131));
                             responseModel = new SessionResponseModel(131, "Session is expired");
                             break;
                         case REVOKED: {
-                            updateStatusStatement.setInt(1, REVOKED);
-                            updateStatement.executeUpdate();
+                            updateStatusStatement.setInt(1, 4);
+                            updateStatusStatement.executeUpdate();
                             ServiceLogger.LOGGER.info("result code: " + (133));
                             responseModel = new SessionResponseModel(133, "Session is revoked");
                             break;
