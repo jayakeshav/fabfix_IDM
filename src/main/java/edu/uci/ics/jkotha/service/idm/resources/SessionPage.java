@@ -19,6 +19,8 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
@@ -38,8 +40,9 @@ public class SessionPage {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response session(String jsonText) {
+    public Response session(String jsonText, @Context HttpHeaders headers) {
         ServiceLogger.LOGGER.info("session page requested");
+        String transactionId = headers.getHeaderString("transactionID");
         ObjectMapper mapper = new ObjectMapper();
         SessionResponseModel responseModel = null;
         SessionsRequestModel requestModel;
@@ -50,17 +53,17 @@ public class SessionPage {
             if (!FunctionsRequired.isValidEmail(email)) {
                 ServiceLogger.LOGGER.info("result code: " + (-11));
                 responseModel = new SessionResponseModel(-11, "Email address has invalid format.");
-                return Response.status(Response.Status.BAD_REQUEST).entity(responseModel).build();
+                return Response.status(Response.Status.BAD_REQUEST).header("transactionID", transactionId).entity(responseModel).build();
             }
             else if (email.length() > 50) {
                 ServiceLogger.LOGGER.info("result code: " + (-10));
                 responseModel = new SessionResponseModel(-10, "Email address has invalid length");
-                return Response.status(Response.Status.BAD_REQUEST).entity(responseModel).build();
+                return Response.status(Response.Status.BAD_REQUEST).header("transactionID", transactionId).entity(responseModel).build();
             }
             else if (sessionID.length() > 128) {
                 ServiceLogger.LOGGER.info("result code: " + (-13));
                 responseModel = new SessionResponseModel(-13, "Token has invalid length.");
-                return Response.status(Response.Status.BAD_REQUEST).entity(responseModel).build();
+                return Response.status(Response.Status.BAD_REQUEST).header("transactionID", transactionId).entity(responseModel).build();
             }
 
             String statement = "select * from sessions where sessionID = ?";
@@ -73,7 +76,7 @@ public class SessionPage {
                 if (!emailDB.equals(email)) {
                     ServiceLogger.LOGGER.info("result code: " + (14));
                     responseModel = new SessionResponseModel(14, "User not found");
-                    return Response.status(Response.Status.OK).entity(responseModel).build();
+                    return Response.status(Response.Status.OK).header("transactionID", transactionId).entity(responseModel).build();
                 }
 
                 int sessionStatus = rs.getInt("status");
@@ -134,30 +137,30 @@ public class SessionPage {
                             break;
                         }
                     }
-                    return Response.status(Response.Status.OK).entity(responseModel).build();
+                    return Response.status(Response.Status.OK).header("transactionID", transactionId).entity(responseModel).build();
                 }
                 else if (sessionStatus == CLOSED) {
                     ServiceLogger.LOGGER.info("result code: " + (132));
                     responseModel = new SessionResponseModel(132, "Session is closed");
-                    return Response.status(Response.Status.OK).entity(responseModel).build();
+                    return Response.status(Response.Status.OK).header("transactionID", transactionId).entity(responseModel).build();
                 }
                 else if (sessionStatus == EXPIRED){
                     ServiceLogger.LOGGER.info("result code: " + (131));
                     responseModel = new SessionResponseModel(131, "Session is expired");
-                    return Response.status(Response.Status.OK).entity(responseModel).build();
+                    return Response.status(Response.Status.OK).header("transactionID", transactionId).entity(responseModel).build();
                 }
                 else if (sessionStatus == REVOKED){
                     ServiceLogger.LOGGER.info("result code: " + (133));
                     responseModel = new SessionResponseModel(133, "Session is revoked");
-                    return Response.status(Response.Status.OK).entity(responseModel).build();
+                    return Response.status(Response.Status.OK).header("transactionID", transactionId).header("transactionID", transactionId).entity(responseModel).build();
                 }
             }
             else {
                 ServiceLogger.LOGGER.info("result code: " + (134));
                 responseModel = new SessionResponseModel(134, "Session not found");
-                return Response.status(Response.Status.OK).entity(responseModel).build();
+                return Response.status(Response.Status.OK).header("transactionID", transactionId).entity(responseModel).build();
             }
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).header("transactionID", transactionId).build();
         } catch (IOException | SQLException e) {
             ServiceLogger.LOGGER.warning(ExceptionUtils.exceptionStackTraceAsString(e));
             if (e instanceof JsonMappingException)
@@ -165,8 +168,8 @@ public class SessionPage {
             else if (e instanceof JsonParseException)
                 responseModel = new SessionResponseModel(-3, "JSON Parse Exception.");
             else
-                return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
-            return Response.status(Response.Status.BAD_REQUEST).entity(responseModel).build();
+                return Response.status(Response.Status.INTERNAL_SERVER_ERROR).header("transactionID", transactionId).build();
+            return Response.status(Response.Status.BAD_REQUEST).header("transactionID", transactionId).entity(responseModel).build();
         }
     }
 }

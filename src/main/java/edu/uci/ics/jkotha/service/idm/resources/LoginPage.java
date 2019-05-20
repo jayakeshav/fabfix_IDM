@@ -16,6 +16,8 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
@@ -28,8 +30,9 @@ public class LoginPage {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response login(String jsonText) {
+    public Response login(String jsonText, @Context HttpHeaders headers) {
         ServiceLogger.LOGGER.info("login page requested");
+        String transactionId = headers.getHeaderString("transactionID");
         ObjectMapper mapper = new ObjectMapper();
         LoginRequestModel requestModel;
         LoginResponseModel responseModel = null;
@@ -40,26 +43,26 @@ public class LoginPage {
             if (!FunctionsRequired.isValidEmail(email)) {
                 ServiceLogger.LOGGER.info("result code: "+(-11));
                 responseModel = new LoginResponseModel(-11, "Email address has invalid format.");
-                return Response.status(Response.Status.BAD_REQUEST).entity(responseModel).build();
+                return Response.status(Response.Status.BAD_REQUEST).header("transactionID", transactionId).entity(responseModel).build();
             } else if (email.length() > 50) {
                 ServiceLogger.LOGGER.info("result code: "+(-10));
                 responseModel = new LoginResponseModel(-10, "Email address has invalid length");
-                return Response.status(Response.Status.BAD_REQUEST).entity(responseModel).build();
+                return Response.status(Response.Status.BAD_REQUEST).header("transactionID", transactionId).entity(responseModel).build();
             }
             else if (password==null){
                 ServiceLogger.LOGGER.info("result code: "+(-12));
                 responseModel = new LoginResponseModel(-12, "Password has invalid length (cannot be empty/null)");
-                return Response.status(Response.Status.BAD_REQUEST).entity(responseModel).build();
+                return Response.status(Response.Status.BAD_REQUEST).header("transactionID", transactionId).entity(responseModel).build();
             }
             else if (password.length == 0) {
                 ServiceLogger.LOGGER.info("result code: "+(-12));
                 responseModel = new LoginResponseModel(-12, "Password has invalid length (cannot be empty/null)");
-                return Response.status(Response.Status.BAD_REQUEST).entity(responseModel).build();
+                return Response.status(Response.Status.BAD_REQUEST).header("transactionID", transactionId).entity(responseModel).build();
             }
             else if(password.length>16 || password.length<7){
                 ServiceLogger.LOGGER.info("result code: "+(12));
                 responseModel = new LoginResponseModel(12,"Password Password does not meet length requirements.");
-                return Response.status(Response.Status.OK).entity(responseModel).build();
+                return Response.status(Response.Status.OK).header("transactionID", transactionId).entity(responseModel).build();
             }
             String statement = "select pword,salt,status from users where email = ?";
             PreparedStatement inputStatement = BasicService.getCon().prepareStatement(statement);
@@ -85,7 +88,7 @@ public class LoginPage {
                     if (!result) {
                         ServiceLogger.LOGGER.info("result code: "+(11));
                         responseModel = new LoginResponseModel(11, "Passwords do not match");
-                        return Response.status(Response.Status.OK).entity(responseModel).build();
+                        return Response.status(Response.Status.OK).header("transactionID", transactionId).entity(responseModel).build();
                     }
                     Session session = Session.createSession(email);
                     String sessionString = "insert into sessions(email, sessionID, status, timeCreated, lastUsed, exprTime) " +
@@ -99,12 +102,12 @@ public class LoginPage {
                     sessionStatement.execute();
                     ServiceLogger.LOGGER.info("result code: "+(120));
                     responseModel = new LoginResponseModel(120, "User logged in successfully", session.getSessionID().toString());
-                    return Response.status(Response.Status.OK).entity(responseModel).build();
+                    return Response.status(Response.Status.OK).header("transactionID", transactionId).entity(responseModel).build();
                 }
             }
             ServiceLogger.LOGGER.info("result code: "+(14));
             responseModel = new LoginResponseModel(14, "User not found.");
-            return Response.status(Response.Status.OK).entity(responseModel).build();
+            return Response.status(Response.Status.OK).header("transactionID", transactionId).entity(responseModel).build();
         } catch (IOException | SQLException e){
             ServiceLogger.LOGGER.warning(ExceptionUtils.exceptionStackTraceAsString(e));
             if (e instanceof JsonMappingException){
@@ -117,9 +120,9 @@ public class LoginPage {
             }
             else{
                 ServiceLogger.LOGGER.info("result code: "+(-1));
-                return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+                return Response.status(Response.Status.INTERNAL_SERVER_ERROR).header("transactionID", transactionId).build();
             }
-            return Response.status(Response.Status.BAD_REQUEST).entity(responseModel).build();
+            return Response.status(Response.Status.BAD_REQUEST).header("transactionID", transactionId).entity(responseModel).build();
         }
     }
 }
