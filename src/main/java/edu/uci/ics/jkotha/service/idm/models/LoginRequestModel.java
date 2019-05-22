@@ -9,8 +9,8 @@ public class LoginRequestModel {
 
     @JsonCreator
     public LoginRequestModel(
-            @JsonProperty(value = "email",required = true) String email,
-            @JsonProperty(value = "password",required = true) char[] password) {
+            @JsonProperty(value = "email", required = true) String email,
+            @JsonProperty(value = "password", required = true) char[] password) {
         this.email = email;
         this.password = password;
     }

@@ -11,18 +11,18 @@ public class Configs {
     // Default service configs
     private final String DEFAULT_SCHEME = "http://";
     private final String DEFAULT_HOSTNAME = "0.0.0.0";
-    private final int    DEFAULT_PORT = 6243;
+    private final int DEFAULT_PORT = 6243;
     private final String DEFAULT_PATH = "/api/idm";
     // Default logger configs
     private final String DEFAULT_OUTPUTDIR = "./logs/";
     private final String DEFAULT_OUTPUTFILE = "basicService.log";
 
-    private final String DEFAULT_DBUSERNAME="testuser";
-    private final String DEFAULT_DBPASSWORD="testuser";
-    private final String DEFAULT_DBHOSTNAME="localhost";
-    private final int DEFAULT_DBPORT=3306;
-    private final String DEFAULT_DBDRIVER="com.mysql.cj.jdbc.Driver";
-    private final String DEFAULT_DBNAME="idm";
+    private final String DEFAULT_DBUSERNAME = "testuser";
+    private final String DEFAULT_DBPASSWORD = "testuser";
+    private final String DEFAULT_DBHOSTNAME = "localhost";
+    private final int DEFAULT_DBPORT = 3306;
+    private final String DEFAULT_DBDRIVER = "com.mysql.cj.jdbc.Driver";
+    private final String DEFAULT_DBNAME = "idm";
     private final String DEFAULT_DBSETTINGS = "?autoReconnect=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=PST";
 
     private final long DEFAULT_SESSION_TIMEOUT = 600000; // 10-minute timeout
@@ -47,7 +47,7 @@ public class Configs {
     private long session_timeout;
     private long token_expr;
 
-    public Configs(){
+    public Configs() {
         //basic configs
         scheme = DEFAULT_SCHEME;
         hostName = DEFAULT_HOSTNAME;
@@ -203,20 +203,20 @@ public class Configs {
         }
     }
 
-    public void currentConfigs(){
+    public void currentConfigs() {
         ServiceLogger.LOGGER.config("Scheme: " + scheme);
         ServiceLogger.LOGGER.config("Hostname: " + hostName);
         ServiceLogger.LOGGER.config("Port: " + port);
         ServiceLogger.LOGGER.config("Path: " + path);
         ServiceLogger.LOGGER.config("Logger output directory: " + outputDir);
         ServiceLogger.LOGGER.config("Logger output file: " + outputFile);
-        ServiceLogger.LOGGER.config("Database User Name:"+ dbUsername);
+        ServiceLogger.LOGGER.config("Database User Name:" + dbUsername);
         ServiceLogger.LOGGER.config("Database Password: Password form config file");
-        ServiceLogger.LOGGER.config("Database Host Name:"+dbHostname);
-        ServiceLogger.LOGGER.config("Database port:"+dbPort);
-        ServiceLogger.LOGGER.config("Database driver:"+dbDriver);
-        ServiceLogger.LOGGER.config("Database Name:"+dbName);
-        ServiceLogger.LOGGER.config("Database Settings:"+dbSettings);
+        ServiceLogger.LOGGER.config("Database Host Name:" + dbHostname);
+        ServiceLogger.LOGGER.config("Database port:" + dbPort);
+        ServiceLogger.LOGGER.config("Database driver:" + dbDriver);
+        ServiceLogger.LOGGER.config("Database Name:" + dbName);
+        ServiceLogger.LOGGER.config("Database Settings:" + dbSettings);
         ServiceLogger.LOGGER.config("Session Time out: " + session_timeout);
         ServiceLogger.LOGGER.config("Token Expiration: " + token_expr);
     }
@@ -273,8 +273,12 @@ public class Configs {
         return dbSettings;
     }
 
-    public long getSession_timeout() { return session_timeout; }
+    public long getSession_timeout() {
+        return session_timeout;
+    }
 
-    public long getToken_expr() { return token_expr; }
+    public long getToken_expr() {
+        return token_expr;
+    }
 }
 

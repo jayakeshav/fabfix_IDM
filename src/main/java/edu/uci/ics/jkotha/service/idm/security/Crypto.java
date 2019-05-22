@@ -10,14 +10,13 @@ import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
 
 public final class Crypto {
-    private static SecureRandom secRand = new SecureRandom();
     public static final int ITERATIONS = 10000;
     public static final int KEY_LENGTH = 512;
-
     // PBKDF2 -- Password-based-key-derivation-function
     // HMAC -- Key-hashed Message Authentication code, used in conjunction with any cryptographic hash function.
     // SHA512 -- 512 bit member function of the SHA-2 cryptographic hash functions family designed by the NSA
     private static final String hashFunction = "PBKDF2WithHmacSHA512";
+    private static SecureRandom secRand = new SecureRandom();
 
     private Crypto() { }
 

@@ -9,8 +9,8 @@ public class DefaultResponseModel {
 
     @JsonCreator
     public DefaultResponseModel(
-            @JsonProperty(value = "resultCode",required = true) int resultCode,
-            @JsonProperty(value = "message",required = true) String message) {
+            @JsonProperty(value = "resultCode", required = true) int resultCode,
+            @JsonProperty(value = "message", required = true) String message) {
         this.resultCode = resultCode;
         this.message = message;
     }
@@ -19,6 +19,7 @@ public class DefaultResponseModel {
     public int getResultCode() {
         return resultCode;
     }
+
     @JsonProperty
     public String getMessage() {
         return message;

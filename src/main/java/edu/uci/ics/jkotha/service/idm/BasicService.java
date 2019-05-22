@@ -30,6 +30,14 @@ public class BasicService {
         startService.initService(args);
     }
 
+    public static Configs getConfigs() {
+        return configs;
+    }
+
+    public static Connection getCon() {
+        return con;
+    }
+
     private void initService(String[] args){
         startService.validateArguments(args);
         startService.execArguments(args);
@@ -194,12 +202,6 @@ public class BasicService {
             }
             ServiceLogger.LOGGER.warning(ExceptionUtils.exceptionStackTraceAsString(e));
         }
-    }
-
-    public static Configs getConfigs(){return configs;}
-
-    public static Connection getCon() {
-        return con;
     }
 }
 

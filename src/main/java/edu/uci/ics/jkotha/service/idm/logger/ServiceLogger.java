@@ -15,19 +15,19 @@ public class ServiceLogger {
         LOGGER.getParent().removeHandler(LOGGER.getParent().getHandlers()[0]);
 
         File logDir = new File(outputDir);
-        if(!(logDir.exists())){
+        if (!(logDir.exists())) {
             logDir.mkdir();
         }
 
-        fileHandler = new FileHandler(outputDir+outputFile);
+        fileHandler = new FileHandler(outputDir + outputFile);
 
-        formatter= new ServiceFormatter();
+        formatter = new ServiceFormatter();
 
         LOGGER.addHandler(fileHandler);
 
         fileHandler.setFormatter(formatter);
 
-        ConsoleHandler consoleHandler =new ConsoleHandler();
+        ConsoleHandler consoleHandler = new ConsoleHandler();
 
         consoleHandler.setLevel(Level.CONFIG);
 

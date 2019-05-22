@@ -12,19 +12,18 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class FunctionsRequired {
-    public static boolean isValidEmail(String email){
+    public static boolean isValidEmail(String email) {
         //String blanck = " ";
-        String[] components1 = email.split("@",0);
+        String[] components1 = email.split("@", 0);
         //System.out.println(components1[0].length());
-        if (components1.length!=2 | components1[0].length()==0)
+        if (components1.length != 2 | components1[0].length() == 0)
             return false;
-        String[] components2 = components1[1].split("\\.",0);
+        String[] components2 = components1[1].split("\\.", 0);
         //System.out.println(components2.length);
-        if (components2.length<2 ){
+        if (components2.length < 2) {
             return false;
-        }
-        else {
-            if( components2[0].length()==0 | components2[1].length()==0)
+        } else {
+            if (components2[0].length() == 0 | components2[1].length() == 0)
                 return false;
         }
 
@@ -38,29 +37,26 @@ public class FunctionsRequired {
 //        return m.matches();
 //    }
 
-    public static boolean isValidPassowrd(char[] password){
+    public static boolean isValidPassowrd(char[] password) {
         boolean isLowerCase = false,
                 isUppperCase = false,
                 isNumber = false,
                 isSpecialChar = false,
-                result=false;
-        for (char c: password){
-           if(Character.isUpperCase(c)){
-               isUppperCase=true;
-           }
-           else if(Character.isLowerCase(c)){
-               isLowerCase =true;
-           }
-           else if(Character.isDigit(c)){
-               isNumber = true;
-           }
-           else {
-               if( (c>32 & c<48)|(c>57 & c<65) | (c>90 & c<97) | (c>122 & c<127))
-                   isSpecialChar = true;
-           }
-           result = isLowerCase & isNumber & isSpecialChar & isUppperCase;
-           if (result)
-               break;
+                result = false;
+        for (char c : password) {
+            if (Character.isUpperCase(c)) {
+                isUppperCase = true;
+            } else if (Character.isLowerCase(c)) {
+                isLowerCase = true;
+            } else if (Character.isDigit(c)) {
+                isNumber = true;
+            } else {
+                if ((c > 32 & c < 48) | (c > 57 & c < 65) | (c > 90 & c < 97) | (c > 122 & c < 127))
+                    isSpecialChar = true;
+            }
+            result = isLowerCase & isNumber & isSpecialChar & isUppperCase;
+            if (result)
+                break;
         }
         return result;
 
@@ -71,21 +67,21 @@ public class FunctionsRequired {
 
     }
 
-    public static boolean isPasswordSame(char[] password1, char[] password2){
+    public static boolean isPasswordSame(char[] password1, char[] password2) {
         String passwordA = new String(password1);
         String passwordB = new String(password2);
-        if (passwordA.length()!=passwordB.length())
+        if (passwordA.length() != passwordB.length())
             return false;
-        for (int i=0;i<password1.length;++i){
-            if(passwordA.charAt(i)!=passwordB.charAt(i))
+        for (int i = 0; i < password1.length; ++i) {
+            if (passwordA.charAt(i) != passwordB.charAt(i))
                 return false;
         }
         return true;
     }
 
-    public static char[] toCharArray(byte[] byteArray){
-        StringBuffer sb =new StringBuffer();
-        for(byte b:byteArray){
+    public static char[] toCharArray(byte[] byteArray) {
+        StringBuffer sb = new StringBuffer();
+        for (byte b : byteArray) {
             sb.append(format(Integer.toHexString(Byte.toUnsignedInt(b))));
         }
         return sb.toString().toCharArray();
@@ -99,9 +95,9 @@ public class FunctionsRequired {
         return padString + binS;
     }
 
-    public static int getPlevel(String plevel){
+    public static int getPlevel(String plevel) {
         plevel.toLowerCase();
-        if(plevel.equals("root"))
+        if (plevel.equals("root"))
             return 1;
         else if (plevel.equals("admin"))
             return 2;
@@ -114,8 +110,8 @@ public class FunctionsRequired {
         return -1;
     }
 
-    public static String getPlevel(int plevel){
-        switch (plevel){
+    public static String getPlevel(int plevel) {
+        switch (plevel) {
             case 1:
                 return "ROOT";
             case 2:
@@ -130,7 +126,7 @@ public class FunctionsRequired {
         return null;
     }
 
-    public static String toStringforDB(byte[] input){
+    public static String toStringforDB(byte[] input) {
         return new String(input);
     }
 
@@ -142,11 +138,11 @@ public class FunctionsRequired {
         return buf.toString();
     }
 
-    public static UserModel[] toUserArray(ResultSet resultSet){
+    public static UserModel[] toUserArray(ResultSet resultSet) {
         ArrayList<UserModel> finalResult = new ArrayList<>();
 
-        try{
-            while (resultSet.next()){
+        try {
+            while (resultSet.next()) {
 
                 UserModel result1 = new UserModel(resultSet.getInt("id"),
                         resultSet.getString("email"),
@@ -154,19 +150,19 @@ public class FunctionsRequired {
                 finalResult.add(result1);
                 //ServiceLogger.LOGGER.info(result1.toString());
             }
-        }catch (SQLException e){
+        } catch (SQLException e) {
             ServiceLogger.LOGGER.info("SQL exception");
         }
         UserModel[] result = new UserModel[finalResult.size()];
-        for(int i=0;i<result.length;i++){
+        for (int i = 0; i < result.length; i++) {
             //ServiceLogger.LOGGER.info("user:"+i);
-            result[i]=finalResult.get(i);
+            result[i] = finalResult.get(i);
             //ServiceLogger.LOGGER.info(result[i].toString());
         }
         return result;
     }
 
-    public static byte[] toByteArray(String input){
-        return  Token.convert(input);
+    public static byte[] toByteArray(String input) {
+        return Token.convert(input);
     }
 }

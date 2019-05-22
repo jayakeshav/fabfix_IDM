@@ -37,7 +37,11 @@ public class ConfigsModel {
         this.databaseConfig = databaseConfig;
     }
 
-    public Map<String, String> getSessionConfig() { return sessionConfig; }
+    public Map<String, String> getSessionConfig() {
+        return sessionConfig;
+    }
 
-    public void setSessionConfig(Map<String, String> sessionConfig) { this.sessionConfig = sessionConfig; }
+    public void setSessionConfig(Map<String, String> sessionConfig) {
+        this.sessionConfig = sessionConfig;
+    }
 }

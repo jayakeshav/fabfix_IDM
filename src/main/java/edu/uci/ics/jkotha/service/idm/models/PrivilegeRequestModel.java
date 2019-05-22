@@ -9,8 +9,8 @@ public class PrivilegeRequestModel {
 
     @JsonCreator
     public PrivilegeRequestModel(
-            @JsonProperty(value = "email",required = true) String email,
-            @JsonProperty(value = "plevel",required = true) int plevel) {
+            @JsonProperty(value = "email", required = true) String email,
+            @JsonProperty(value = "plevel", required = true) int plevel) {
         this.email = email;
         this.plevel = plevel;
     }
@@ -27,6 +27,6 @@ public class PrivilegeRequestModel {
 
     @Override
     public String toString() {
-        return "email: "+this.email+" plevel: "+this.plevel;
+        return "email: " + this.email + " plevel: " + this.plevel;
     }
 }

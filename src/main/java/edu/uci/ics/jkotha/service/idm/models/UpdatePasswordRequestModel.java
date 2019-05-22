@@ -10,9 +10,9 @@ public class UpdatePasswordRequestModel {
 
     @JsonCreator
     public UpdatePasswordRequestModel(
-            @JsonProperty(value = "email",required = true) String email,
-            @JsonProperty(value = "oldpword",required = true) char[] oldpword,
-            @JsonProperty(value = "newpword",required = true) char[] newpword) {
+            @JsonProperty(value = "email", required = true) String email,
+            @JsonProperty(value = "oldpword", required = true) char[] oldpword,
+            @JsonProperty(value = "newpword", required = true) char[] newpword) {
         this.email = email;
         this.oldpword = oldpword;
         this.newpword = newpword;

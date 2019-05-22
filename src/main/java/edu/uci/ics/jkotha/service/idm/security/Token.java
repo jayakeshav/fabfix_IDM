@@ -4,9 +4,9 @@ import java.security.SecureRandom;
 import java.util.Arrays;
 
 public class Token implements Comparable<Token> {
-    private final byte[] token;
     private static final SecureRandom rngesus = new SecureRandom();
     private static final int TOKEN_SIZE = 64;
+    private final byte[] token;
 
     private Token(byte[] token) {
         this.token = token;
@@ -20,27 +20,6 @@ public class Token implements Comparable<Token> {
 
     public static Token rebuildToken(String sessionID) {
         return new Token(convert(sessionID));
-    }
-
-    @Override
-    public String toString() {
-        StringBuffer buf = new StringBuffer();
-        for (byte b : token) {
-            buf.append(format(Integer.toHexString(Byte.toUnsignedInt(b))));
-        }
-        return buf.toString();
-    }
-
-    private String format(String binS) {
-        int length = 2 - binS.length();
-        char[] padArray = new char[length];
-        Arrays.fill(padArray, '0');
-        String padString = new String(padArray);
-        return padString + binS;
-    }
-
-    public boolean validate(String id) {
-        return equals(new Token(convert(id)));
     }
 
     public static byte[] convert(String tok) {
@@ -63,6 +42,27 @@ public class Token implements Comparable<Token> {
         } else {
             return null;
         }
+    }
+
+    @Override
+    public String toString() {
+        StringBuffer buf = new StringBuffer();
+        for (byte b : token) {
+            buf.append(format(Integer.toHexString(Byte.toUnsignedInt(b))));
+        }
+        return buf.toString();
+    }
+
+    private String format(String binS) {
+        int length = 2 - binS.length();
+        char[] padArray = new char[length];
+        Arrays.fill(padArray, '0');
+        String padString = new String(padArray);
+        return padString + binS;
+    }
+
+    public boolean validate(String id) {
+        return equals(new Token(convert(id)));
     }
 
     @Override

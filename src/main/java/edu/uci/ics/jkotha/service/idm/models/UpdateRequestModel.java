@@ -10,7 +10,7 @@ public class UpdateRequestModel {
 
     @JsonCreator
     public UpdateRequestModel(
-            @JsonProperty(value = "id",required = true) int id,
+            @JsonProperty(value = "id", required = true) int id,
             @JsonProperty(value = "email") String email,
             @JsonProperty(value = "plevel") String plevel) {
         this.id = id;

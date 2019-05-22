@@ -10,10 +10,10 @@ public class UserModel {
 
     @JsonCreator
     public UserModel(
-            @JsonProperty(value = "id",required = true) int id,
-            @JsonProperty(value = "email",required = true) String email,
-            @JsonProperty(value = "plevel",required = true) String plevel
-            ) {
+            @JsonProperty(value = "id", required = true) int id,
+            @JsonProperty(value = "email", required = true) String email,
+            @JsonProperty(value = "plevel", required = true) String plevel
+    ) {
         this.id = id;
         this.email = email;
         this.plevel = plevel;
@@ -30,10 +30,12 @@ public class UserModel {
     }
 
     @JsonProperty
-    public int getId() { return id; }
+    public int getId() {
+        return id;
+    }
 
     @Override
     public String toString() {
-        return "id:"+id+" email:"+email+" plevel"+plevel;
+        return "id:" + id + " email:" + email + " plevel" + plevel;
     }
 }

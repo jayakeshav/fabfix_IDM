@@ -85,6 +85,7 @@ public class Session {
         }
         return true;
     }
+
     public int getSessionStatus() {
         // Get the current time
         Timestamp currentTime = new Timestamp(System.currentTimeMillis());
@@ -93,26 +94,29 @@ public class Session {
         //ServiceLogger.LOGGER.info("Timeout Time:"+timeoutTime);
         // Verify that the current time is not greater than the hard expiration time of the session
         if (currentTime.after(exprTime)) {
+            ServiceLogger.LOGGER.info("Session Expired");
             return EXPIRED;
-        }
-        else {
+        } else {
             // Verify that the current time is not AFTER the time of last use, causing a timeout.
             if (currentTime.after(timeoutTime)) {
+                ServiceLogger.LOGGER.info("Session Revoked");
                 return REVOKED;
-            }
-            else
+            } else {
+                ServiceLogger.LOGGER.info("Session Active");
                 return ACTIVE;
+            }
         }
     }
 
-    public boolean needToCreateNewSession(){
+    public boolean needToCreateNewSession() {
         Timestamp currentTime = new Timestamp(System.currentTimeMillis());
-        Timestamp testerTime = new Timestamp(currentTime.getTime()+SESSION_TIMEOUT);
+        Timestamp testerTime = new Timestamp(currentTime.getTime() + SESSION_TIMEOUT);
         //ServiceLogger.LOGGER.info("tester time:"+testerTime.toString());
         if (testerTime.after(exprTime))
             return true;
         return false;
     }
+
     @Override
     /*
         This method checks that two session objects are equal.

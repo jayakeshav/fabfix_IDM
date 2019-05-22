@@ -10,7 +10,7 @@ public class CreateRequestModel {
 
     @JsonCreator
     public CreateRequestModel(
-            @JsonProperty(value = "email",required = true) String email,
+            @JsonProperty(value = "email", required = true) String email,
             @JsonProperty(value = "plevel", required = true) String plevel,
             @JsonProperty(value = "password", required = true) char[] password) {
         this.email = email;

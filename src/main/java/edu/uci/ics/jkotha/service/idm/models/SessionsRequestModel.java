@@ -9,8 +9,8 @@ public class SessionsRequestModel {
 
     @JsonCreator
     public SessionsRequestModel(
-            @JsonProperty(value = "email",required = true) String email,
-            @JsonProperty(value = "sessionID",required = true) String sessionID) {
+            @JsonProperty(value = "email", required = true) String email,
+            @JsonProperty(value = "sessionID", required = true) String sessionID) {
         this.email = email;
         this.sessionID = sessionID;
     }
