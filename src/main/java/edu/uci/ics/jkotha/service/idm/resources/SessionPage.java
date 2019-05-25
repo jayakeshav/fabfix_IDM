@@ -101,27 +101,27 @@ public class SessionPage {
                     // fins the current session status
                     switch (session.getSessionStatus()) {
                         case ACTIVE:
-//                            if (session.needToCreateNewSession()) {
-//                                updateStatusStatement.setInt(1, 4);
-//                                updateStatusStatement.executeUpdate();
-//                                ServiceLogger.LOGGER.info("result code: " + (130) + " but a new session is created");
-//                                Session session1 = Session.createSession(email);
-//                                String sessionString = "insert into sessions" +
-//                                        "(email, sessionID, status, timeCreated, lastUsed, exprTime) " +
-//                                        "values (?,?,1,?,?,?)";
-//                                PreparedStatement sessionStatement = BasicService.getCon().prepareStatement(sessionString);
-//                                sessionStatement.setString(1, email);
-//                                sessionStatement.setString(2, session1.getSessionID().toString());
-//                                sessionStatement.setTimestamp(3, session1.getTimeCreated());
-//                                sessionStatement.setTimestamp(4, session1.getLastUsed());
-//                                sessionStatement.setTimestamp(5, session1.getExprTime());
-//                                sessionStatement.execute();
-//                                responseModel = new SessionResponseModel(130, "Session is active", session1.getSessionID().toString());
-//                            }
-//                            else {
+                            if (session.needToCreateNewSession()) {
+                                updateStatusStatement.setInt(1, 4);
+                                updateStatusStatement.executeUpdate();
+                                ServiceLogger.LOGGER.info("result code: " + (130) + " but a new session is created");
+                                Session session1 = Session.createSession(email);
+                                String sessionString = "insert into sessions" +
+                                        "(email, sessionID, status, timeCreated, lastUsed, exprTime) " +
+                                        "values (?,?,1,?,?,?)";
+                                PreparedStatement sessionStatement = BasicService.getCon().prepareStatement(sessionString);
+                                sessionStatement.setString(1, email);
+                                sessionStatement.setString(2, session1.getSessionID().toString());
+                                sessionStatement.setTimestamp(3, session1.getTimeCreated());
+                                sessionStatement.setTimestamp(4, session1.getLastUsed());
+                                sessionStatement.setTimestamp(5, session1.getExprTime());
+                                sessionStatement.execute();
+                                responseModel = new SessionResponseModel(130, "Session is active", session1.getSessionID().toString());
+                            }
+                            else {
                                 ServiceLogger.LOGGER.info("result code: " + (130));
                                 responseModel = new SessionResponseModel(130, "Session is active", sessionID);
-//                            }
+                            }
                             break;
                         case EXPIRED:
                             updateStatusStatement.setInt(1, 3);
