@@ -1,0 +1,21 @@
+serviceConfig:
+  scheme: http://
+  hostName: localhost
+  port: 6244
+  path: /api/idm
+
+loggerConfig:
+  outputDir: ./logs/
+  outputFile: totalLogFile.log
+
+databaseConfig:
+  dbUsername: testuser
+  dbPassword: testuser
+  dbHostname: localhost
+  dbPort: 3306
+  dbDriver: com.mysql.cj.jdbc.Driver
+  dbName: idm
+  dbSettings: ?autoReconnect=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=PST
+sessionConfig:
+  timeout: 1800000
+  expiration: 3600000
